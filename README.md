@@ -2,6 +2,8 @@
 
 A modern, full-stack job board application built with Next.js, featuring job search powered by RapidAPI, secure authentication with Clerk, and a polished UI using shadcn/ui components.
 
+🚀 **[Live Demo](https://job-board-3g6d.vercel.app/)**
+
 ## Features
 
 - 🔍 **Job Search Integration** - Real-time job listings via RapidAPI
