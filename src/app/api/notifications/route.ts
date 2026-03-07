@@ -1,24 +1,17 @@
-// src/app/api/notifications/route.ts
-
 import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
+import { connectToDB } from '@/lib/db';
+import Notification from '@/models/Notification';
 
-// This function handles GET requests to /api/notifications
-export async function GET(request: Request) {
-    // ⚠️ Implement your logic here: check database or service for user notifications
-    
-    // For now, let's return a mock response to ensure the build succeeds
-    const mockNotifications = [
-        { id: 1, message: 'Your application was viewed.' },
-        { id: 2, message: 'New job posting matching your profile.' },
-    ];
+export async function GET() {
+    const { userId } = await auth();
+    if (!userId) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
-    return NextResponse.json({ notifications: mockNotifications }, { status: 200 });
+    try {
+        await connectToDB();
+        const notifications = await Notification.find({ userId }).sort({ createdAt: -1 });
+        return NextResponse.json({ notifications });
+    } catch (error) {
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    }
 }
-
-// If you need to dismiss or mark notifications as read, you'd add a POST or PATCH handler:
-/*
-export async function POST(request: Request) {
-    // Logic to update a notification status
-    return NextResponse.json({ message: 'Notification updated' }, { status: 200 });
-}
-*/
