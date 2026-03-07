@@ -1,7 +1,8 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar"; // Your custom header component
+import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -16,12 +17,19 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <ClerkProvider>
-            <html lang="en">
+            <html lang="en" suppressHydrationWarning>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-            <Navbar />  {/* Navbar always visible */}
-            <main className="pt-16"> {/* Adjust padding to navbar height */}
-                {children}
-            </main>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Navbar />
+                    <main className="pt-16 min-h-screen">
+                        {children}
+                    </main>
+                </ThemeProvider>
             </body>
             </html>
         </ClerkProvider>

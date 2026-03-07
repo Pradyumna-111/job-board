@@ -1,51 +1,65 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
+import { connectToDB } from '@/lib/db';
+import Application from '@/models/Application';
+import Notification from '@/models/Notification';
+import Job from '@/models/Job';
 
-// ... (saveApplicationToDatabase function remains the same) ...
-async function saveApplicationToDatabase(data: any) {
-    // ... (MOCK IMPLEMENTATION) ...
-    console.log(`[DB MOCK] Application submitted for Job: ${data.jobId} by User: ${data.userId}`);
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return true;
+interface ApplicationData {
+    jobId: string;
+    jobTitle: string;
+    name: string;
+    email: string;
+    coverLetter: string;
+    resumeUrl?: string;
+    isExternal?: boolean;
+    jobData?: object;
 }
 
-// Route Handler for POST requests
 export async function POST(request: Request) {
-    // 1. Correct Authentication Check (Synchronous Call)
-    // Destructure the object returned by auth() to get userId
-    const{userId}=await auth();
+    const { userId } = await auth();
 
     if (!userId) {
-        // Return a 401 Unauthorized response
         return NextResponse.json({ message: 'Unauthorized. Please log in.' }, { status: 401 });
     }
 
-    // 2. Parse the Request Body
-    const applicationData = await request.json();
-
-    // ... (Rest of the logic remains the same) ...
-    const { jobId, jobTitle, name, email, coverLetter } = applicationData;
-
-    if (!jobId || !jobTitle || !name || !email) {
-        return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
-    }
-
     try {
-        const finalApplicationRecord = {
-            userId: userId,
-            jobId: jobId,
-            jobTitle: jobTitle,
+        const applicationData = await request.json() as ApplicationData;
+        const { jobId, jobTitle, name, email, coverLetter, resumeUrl, isExternal, jobData } = applicationData;
+
+        if (!jobId || !jobTitle || !name || !email) {
+            return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+        }
+
+        await connectToDB();
+
+        // Create the application record in MongoDB
+        const application = await Application.create({
+            userId,
+            jobId: isExternal ? null : jobId,
+            jobData: isExternal ? jobData : null,
+            isExternal,
             applicantName: name,
             applicantEmail: email,
-            coverLetter: coverLetter,
-            status: 'Submitted',
-            appliedAt: new Date().toISOString(),
-        };
+            coverLetter,
+            resumeUrl,
+            status: 'applied',
+        });
 
-        await saveApplicationToDatabase(finalApplicationRecord);
+        // Notify the recruiter if it's an internal job
+        if (!isExternal) {
+            const job = await Job.findById(jobId);
+            if (job && job.postedBy) {
+                await Notification.create({
+                    userId: job.postedBy,
+                    message: `New application received for "${job.title}" from ${name}.`,
+                    type: 'system',
+                });
+            }
+        }
 
         return NextResponse.json(
-            { message: 'Application submitted successfully', data: { jobId: jobId } },
+            { message: 'Application submitted successfully', application },
             { status: 201 }
         );
 
