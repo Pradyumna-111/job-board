@@ -1,136 +1,138 @@
-# Job Board Platform
+# 🚀 AI-Powered Next.js Job Board
 
-A modern, full-stack job board application built with Next.js, featuring an **AI Job Agent powered by Google Gemini**, job search via RapidAPI, secure authentication with Clerk, and a polished UI using shadcn/ui components.
+Welcome to the future of job searching. This application is a high-performance, full-stack job board platform built with **Next.js 16**, **TypeScript**, and **Tailwind CSS**, now supercharged with **Google Gemini 1.5 Flash** for an agentic, AI-first user experience.
 
-🚀 **[Live Demo](https://job-board-3g6d.vercel.app/)**
+---
 
-## 🤖 New: AI-Powered Features
+## 🌟 Key Features
 
-- **AI Job Agent**: A specialized chat agent that helps you find jobs, answer questions, and provides career advice.
-- **AI Match Score**: Get instant feedback on how well your resume matches a job description, with specific reasons and improvement tips.
-- **Resume Parsing**: Upload your PDF or TXT resume, and the AI will use your background to personalize recommendations.
-- **Cover Letter Generator**: Generate professional, tailored cover letters in seconds based on your experience and the job role.
+### 🤖 Agentic AI Job Assistant
+*   **Natural Language Search**: Find jobs by chatting—e.g., "Find me remote React roles in Europe."
+*   **Context-Aware**: The agent automatically uses your uploaded resume to tailor its search results and advice.
+*   **Smart Tools**: The AI can search jobs, save listings, score matches, and draft letters autonomously.
 
-## Features
+### 📊 AI Match Scoring & Analysis
+*   **Dynamic Matching**: Instantly see how well you fit a role with a 0-100% match score.
+*   **Actionable Feedback**: Get 3 specific reasons why you're a good fit and 3 concrete ways to improve your resume for that specific role.
 
-- 🔍 **Job Search Integration** - Real-time job listings via RapidAPI
-- 🔐 **Secure Authentication** - User management powered by Clerk
-- 🎨 **Modern UI** - Beautiful, accessible components with shadcn/ui
-- ⚡ **Server-Side Rendering** - Fast page loads with Next.js
-- 📱 **Responsive Design** - Works seamlessly on all devices
-- 💾 **Saved Jobs** - Bookmark and manage favorite job listings
-- 🔔 **Job Alerts** - Get notified about relevant opportunities
+### 📝 Professional Cover Letter Generator
+*   **One-Click Drafting**: Generate a professional, 3-paragraph cover letter tailored to the job description and your unique background.
+*   **Copy to Clipboard**: Fast and efficient workflow for applying to multiple roles.
 
-## Tech Stack
+### 📄 Intelligent Resume Parsing
+*   **PDF/TXT Support**: Drag-and-drop your resume for instant text extraction.
+*   **Local Persistence**: Your resume is stored securely in your browser's local storage for privacy and convenience.
 
-- **Framework**: [Next.js 16+](https://nextjs.org/) (App Router)
-- **AI**: [Google Gemini 1.5 Flash](https://ai.google.dev/)
-- **Authentication**: [Clerk](https://clerk.com/)
-- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
-- **Styling**: Tailwind CSS
-- **Job Data API**: [RapidAPI](https://rapidapi.com/)
-- **Type Safety**: TypeScript
+### 🔍 Core Job Board Functionality
+*   **RapidAPI Integration**: Fetches real-time, global job listings from the JSearch API.
+*   **Secure Auth**: User management and role-based access control (Seeker/Recruiter) via **Clerk**.
+*   **Responsive UI**: A polished, dark-mode-ready interface built with **shadcn/ui**.
 
-## Prerequisites
+---
 
-Before you begin, ensure you have the following:
+## 🛠 Tech Stack
 
-- Node.js 18+ installed
-- npm or yarn package manager
-- A Clerk account ([Sign up here](https://clerk.com/))
-- A RapidAPI account ([Sign up here](https://rapidapi.com/))
-- A Google AI Studio API key ([Get it here](https://aistudio.google.com/))
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | [Next.js 16](https://nextjs.org/) (App Router) |
+| **AI / LLM** | [Google Gemini 1.5 Flash](https://ai.google.dev/) |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) & [shadcn/ui](https://ui.shadcn.com/) |
+| **Authentication** | [Clerk](https://clerk.com/) |
+| **Data Fetching** | [RapidAPI JSearch](https://rapidapi.com/letscrape-6bR47QBD7/api/jsearch) |
+| **Database** | [MongoDB](https://www.mongodb.com/) with Mongoose |
+| **PDF Parsing** | [pdf-parse](https://www.npmjs.com/package/pdf-parse) |
 
-## Getting Started
+---
 
-### 1. Clone the Repository
+## 🚀 Getting Started
 
+### 1. Prerequisites
+*   Node.js 18.17 or later
+*   npm, yarn, or pnpm
+*   Accounts for: [Clerk](https://clerk.com/), [RapidAPI](https://rapidapi.com/), [Google AI Studio](https://aistudio.google.com/)
+
+### 2. Installation
 ```bash
-git clone <your-repo-url>
-cd job-board
-```
-
-### 2. Install Dependencies
-
-```bash
+git clone https://github.com/your-username/job-board-ai.git
+cd job-board-ai
 npm install
-# or
-yarn install
 ```
 
-### 3. Environment Variables
-
-Create a `.env.local` file in the root directory and add the following:
+### 3. Environment Setup
+Create a `.env.local` file in the root and populate it with your credentials:
 
 ```env
 # Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_SECRET_KEY=your_clerk_secret_key
-
-# Clerk URLs
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
-# RapidAPI
+# Database
+MONGODB_URI=mongodb+srv://...
+
+# External APIs
 RAPIDAPI_KEY=your_rapidapi_key
-RAPIDAPI_HOST=jsearch.p.rapidapi.com
+GEMINI_API_KEY=your_google_gemini_key
 
-# Google Gemini AI
-GEMINI_API_KEY=your_gemini_api_key
+# Email (Optional)
+RESEND_API_KEY=re_...
 ```
 
-### 4. Run the Development Server
-
+### 4. Running the App
 ```bash
 npm run dev
-# or
-yarn dev
 ```
+Visit `http://localhost:3000` to see the application in action.
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+---
 
-## Project Structure
+## 📂 Project Architecture
 
-```
+```text
 src/
 ├── app/
-│   ├── ai-agent/        # AI Agent Chat Page
-│   ├── api/
-│   │   ├── agent/       # Gemini Orchestrator
-│   │   ├── match/       # Resume Scorer
-│   │   ├── coverletter/ # Letter Generator
-│   │   └── parse-resume/# PDF Parser
-│   ├── jobs/
-│   │   └── [id]/        # Job Detail with Match Score
+│   ├── ai-agent/        # The central AI chat experience
+│   ├── api/             # Backend endpoints (Agent, Match, Parse, Jobs)
+│   ├── jobs/            # Job browsing and detailed match pages
+│   └── applications/    # Application management system
 ├── components/
-│   ├── AIJobAgent.tsx   # Chat UI
-│   ├── ResumeUpload.tsx # Dropzone & Parser
-│   ├── JobMatchScore.tsx# Visual Score UI
-│   └── JobCard.tsx      # Reusable Job Card
+│   ├── ui/              # Radix UI primitives (shadcn)
+│   ├── AIJobAgent.tsx   # Core Chat UI and logic
+│   ├── JobMatchScore.tsx# Visual analysis component
+│   └── ResumeUpload.tsx # File handling and parsing logic
 ├── lib/
-│   ├── gemini.ts        # Gemini SDK Wrapper
-│   ├── agentTools.ts    # Agent Tool Definitions
-│   └── api.ts           # RapidAPI utility
+│   ├── gemini.ts        # AI SDK wrapper and agent orchestrator
+│   ├── agentTools.ts    # Custom tools for Gemini function calling
+│   └── api.ts           # Reusable data fetching utilities
+└── models/              # Mongoose database schemas
 ```
 
-## Available Scripts
+---
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+## 🤖 AI Implementation Details
 
-## Environment Variables Reference
+The AI Agent utilizes a **Reason-and-Act (ReAct)** loop implemented in `src/lib/gemini.ts`. It leverages Gemini's native **Function Calling** capabilities to interact with the platform.
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk public key | Yes |
-| `CLERK_SECRET_KEY` | Clerk secret key | Yes |
-| `RAPIDAPI_KEY` | RapidAPI authentication key | Yes |
-| `GEMINI_API_KEY` | Google Gemini API key | Yes |
+### Supported Tools:
+1.  `search_jobs`: Queries external job data with filters for location, type, and level.
+2.  `save_job`: Markers jobs for future interest.
+3.  `score_resume_match`: Compares specific descriptions against user resumes.
+4.  `draft_cover_letter`: Generates professional correspondence.
 
-## License
+---
 
-This project is licensed under the MIT License.
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## 🙌 Acknowledgments
+
+*   [Google AI SDK](https://github.com/google/generative-ai-js) for the Gemini integration.
+*   [shadcn](https://twitter.com/shadcn) for the incredible UI components.
+*   [Lucide React](https://lucide.dev/) for the beautiful icons.
+
+---
+
+Built with ❤️ for a better career search experience.
