@@ -29,6 +29,13 @@ export default function Navbar() {
                         <Link href="/jobs" className="text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-400 font-semibold">
                             Browse Jobs
                         </Link>
+                        <Link href="/ai-agent" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold flex items-center gap-1">
+                            <span className="relative flex h-3 w-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                            </span>
+                            AI Agent
+                        </Link>
                         <Link href="/applications" className="text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-400 font-semibold">
                             Applications
                         </Link>
@@ -82,6 +89,9 @@ export default function Navbar() {
                     </Link>
                     <Link href="/jobs" className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800">
                         Browse Jobs
+                    </Link>
+                    <Link href="/ai-agent" className="block px-4 py-2 text-blue-600 font-bold hover:bg-blue-50 dark:hover:bg-gray-800">
+                        AI Agent
                     </Link>
                     <Link href="/applications" className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800">
                         Applications

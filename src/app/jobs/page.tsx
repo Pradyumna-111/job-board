@@ -4,17 +4,7 @@ import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-
-interface Job {
-    id: string;
-    title: string;
-    company: string;
-    location: string;
-    description: string;
-    isExternal?: boolean;
-}
+import JobCard, { Job } from '@/components/JobCard';
 
 export default function JobsPage() {
     const [jobs, setJobs] = useState<Job[]>([]);
@@ -117,32 +107,12 @@ export default function JobsPage() {
                     </div>
                 ) : (
                     filteredJobs.map((job) => (
-                        <div key={job.id} className="border rounded-lg shadow-md p-6 flex flex-col justify-between bg-white hover:shadow-lg transition-shadow">
-                            <div>
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="text-2xl font-semibold text-blue-800">{job.title}</h3>
-                                    {job.isExternal && <Badge variant="secondary">External</Badge>}
-                                </div>
-                                <p className="text-gray-700 font-medium">{job.company} &middot; {job.location}</p>
-                                <p className="mt-3 text-gray-600 text-sm whitespace-pre-line line-clamp-4">
-                                    {job.description}
-                                </p>
-                            </div>
-                            <div className="flex gap-2 mt-6">
-                                <Button
-                                    onClick={() => redirectToApplication(job)}
-                                    className="flex-grow bg-blue-600 hover:bg-blue-700"
-                                >
-                                    Apply Now
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    onClick={() => toggleSaveJob(job.id)}
-                                >
-                                    Save
-                                </Button>
-                            </div>
-                        </div>
+                        <JobCard
+                            key={job.id}
+                            job={job}
+                            onApply={redirectToApplication}
+                            onSave={toggleSaveJob}
+                        />
                     ))
                 )}
             </div>

@@ -4,13 +4,7 @@ import { connectToDB } from '@/lib/db';
 import Job from '@/models/Job';
 import Company from '@/models/Company';
 
-interface ExternalJob {
-    job_id: string;
-    job_title: string;
-    company_name: string;
-    job_location: string;
-    job_description: string;
-}
+import { searchJobs } from '@/lib/api';
 
 interface InternalJob {
     _id: { toString: () => string };
@@ -34,28 +28,7 @@ export async function GET() {
         }
 
         // Default: Fetch from external API (existing logic) or Internal Database for seekers
-        const res = await fetch("https://jsearch.p.rapidapi.com/search?query=developer&num_pages=1", {
-            method: "GET",
-            headers: {
-                "X-RapidAPI-Key": process.env.RAPIDAPI_KEY || '',
-                "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
-            },
-        });
-
-        let externalJobs: any[] = [];
-        if (res.ok) {
-            const externalData = await res.json();
-            externalJobs = (externalData.data || []).map((job: ExternalJob) => ({
-                id: job.job_id,
-                title: job.job_title,
-                company: job.company_name,
-                location: job.job_location,
-                description: job.job_description,
-                isExternal: true,
-            }));
-        } else {
-            console.error("JSearch API error:", res.status);
-        }
+        const externalJobs = await searchJobs('developer');
 
         const internalJobs = await Job.find({ status: 'approved' }).populate('companyId');
         const formattedInternalJobs = internalJobs.map((job: InternalJob) => ({
